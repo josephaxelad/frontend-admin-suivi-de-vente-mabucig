@@ -1,0 +1,76 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="ADMINISTRATEURS"
+        [breadcrumb]="[
+        {name : 'Mes administrateurs',link : '/administrateurs',icone : 'fas fa-users-cog'},
+        {name : 'Ajouter un administrateur',link : '',icone : 'fas fa-plus-circle'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <form class="card" [formGroup]="adminForm" (ngSubmit)="add()">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <div class="card-title">Ajouter un administrateur</div>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/administrateurs/']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+                </div>
+            </div>
+            <div class="card-body">
+              <div class="row" fxLayoutAlign="row wrap">
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Prénoms</label>
+                  <input class="form-control" formControlName="firstname"  placeholder=""
+                  [ngClass]="{ 'is-invalid': submitted && adminForm.controls.firstname.errors }">
+                  <div *ngIf="submitted && adminForm.controls.firstname.errors" class="invalid-feedback">
+                    <div *ngIf="adminForm.controls.firstname.errors.required">Le Prénom est réquis !</div>
+                  </div>
+                </div>
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Nom</label>
+                  <input class="form-control" formControlName="lastname"  placeholder=""
+                  [ngClass]="{ 'is-invalid': submitted && adminForm.controls.lastname.errors }">
+                  <div *ngIf="submitted && adminForm.controls.lastname.errors" class="invalid-feedback">
+                    <div *ngIf="adminForm.controls.lastname.errors.required">Le nom est réquis !</div>
+                  </div>
+                </div>
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Login</label>
+                  <input class="form-control" formControlName="login"  placeholder=""
+                  [ngClass]="{ 'is-invalid': submitted && adminForm.controls.login.errors }">
+                  <div *ngIf="submitted && adminForm.controls.login.errors" class="invalid-feedback">
+                    <div *ngIf="adminForm.controls.login.errors.required">Le login est réquis !</div>
+                  </div>
+                </div>
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Mot de passe</label>
+                  <input class="form-control" formControlName="password"    placeholder=""
+                  [ngClass]="{ 'is-invalid': submitted && adminForm.controls.password.errors }">
+                  <div *ngIf="submitted && adminForm.controls.password.errors" class="invalid-feedback">
+                    <div *ngIf="adminForm.controls.password.errors.required">Le mot de passe est réquis !</div>
+                  </div>
+                </div>
+                <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+                  <label for="exampleFormControlSelect1">Role</label>
+                  <select class="form-control" formControlName="role">
+                    <option value="admin">Admin</option>
+                    <option value="superadmin">Super-Admin</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="card-action">
+              <button class="btn btn-success">Ajouter</button>
+              <!-- <button class="btn btn-danger">Retour</button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

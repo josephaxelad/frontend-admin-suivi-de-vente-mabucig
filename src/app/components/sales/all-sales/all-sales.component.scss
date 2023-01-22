@@ -1,0 +1,120 @@
+.isSorted{
+ border-radius: 15px;
+ border: white 2px double;
+ padding: 5px 10px;
+}
+
+.sale-item{
+  background-color: #0a2d51;
+  font-family: 'Font Awesome 5 Brands';
+  padding: 5px 7px;
+  color: white;
+  cursor: pointer;
+
+  .date-time{
+    div{
+      // margin: -5px -7px;
+      background-color: #10375e;
+      padding-right: 10px;
+      border-right: solid 1px #8d9498;
+    }
+
+
+    // .date {
+
+    // }
+    // .year {
+
+    // }
+
+    .time {
+      // border: 1px solid #619edb;
+      border-radius: 15px;
+      background-color: #619edb;
+      padding: 1px 5px;
+    }
+
+  }
+
+  .wholesaler,.semi-wholesaler{
+    .localisation{
+      border-radius: 15px;
+      background-color: #9eabb9;
+      padding: 1px 5px;
+
+      white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+    padding-right: 10px;
+    padding-right: 10px;
+
+  }
+  .semi-wholesaler{
+     .type{
+      color: greenyellow;
+
+     }
+  }
+  .wholesaler{
+    .type{
+      color: red;
+    }
+  }
+
+  .price{
+    div{
+      // margin: -5px -7px;
+      background-color: #10375e;
+      padding-left: 10px;
+      border-left: solid 1px #8d9498;
+    }
+
+  }
+}
+// .modal-details-vente{
+//   hr{
+//     color: aliceblue;
+//   }
+// }
+.details-vente-modal-header{
+  .date-time{
+    .time {
+      // border: 1px solid #619edb;
+      border-radius: 15px;
+      background-color: #619edb;
+      padding: 1px 5px;
+      color: white;
+    }
+  }
+  .wholesaler,.semi-wholesaler{
+    .localisation{
+      border-radius: 15px;
+      background-color: #9eabb9;
+      padding: 1px 5px;
+      color: white;
+
+      white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+    // padding-right: 10px;
+    // padding-right: 10px;
+
+  }
+  .semi-wholesaler.type{
+     color: greenyellow;
+    }
+ .wholesaler.type{
+     color: red;
+   }
+}
+
+.btn-toggle-sales-rapport{
+  .active{
+    background-color: rgb(0, 0, 0) !important;
+  }
+  label{
+    background-color: rgb(151, 151, 151) !important;
+  }
+}

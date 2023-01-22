@@ -1,0 +1,93 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="ADMINISTRATEURS"
+        [breadcrumb]="[
+        {name : 'Mes administrateurs',link : '/administrateurs',icone : 'fas fa-users-cog'},
+        {name : 'Détails administrateur',link : '',icone : 'fas fa-info-circle'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <div class="card-body" >
+            <div class="card " style="margin-bottom: 0;" >
+              <div class="card-header" style="background-color: white;" fxLayout="row" fxLayoutAlign="start center">
+                <!-- <div class="avatar-sm float-left mr-2">
+                  <span class="avatar-title rounded-circle border border-white" style="background-color: black;">{{getInitials(admin)}}</span>
+                </div> -->
+                <div class="avatar">
+                  <img src="https://via.placeholder.com/50x50" alt="..." class="avatar-img rounded">
+                </div>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/administrateurs']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+              </div>
+              <div class="card-body"style="padding-top: 10px ;" >
+                <div class="row" fxLayout="row wrap" >
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Nom </label>
+                      <input id="Name" type="text" class="form-control" [value]="admin.lastname" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div  class="form-group form-group-default">
+                      <label>Prénoms</label>
+                      <input id="Name" type="text" class="form-control" [value]="admin.firstname" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div  class="form-group form-group-default">
+                      <label>Login</label>
+                      <input id="Name" type="text" class="form-control" [value]="admin.login" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Role</label>
+                      <div *ngIf="admin.role == 'admin'" class="desc badge badge-warning" style="color: white;">Admin</div>
+                      <div *ngIf="admin.role == 'superadmin'" class="desc badge badge-danger" style="color: white;">Super-Admin</div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="user-profile text-center">
+
+                  <div class="view-profile" *ngIf="admin.role == 'admin'" >
+                    <button type="button" class="btn btn-primary btn-block"
+                    data-toggle="modal"[attr.data-target]="'#modal-reset-admin-password-'+admin._id" data-dismiss="modal" >
+                      Réinitialiser mot de passe <i class="fas fa-lock-open"></i> </button>
+                  </div>
+
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="row user-stats text-center" *ngIf="admin.role == 'admin'">
+                  <div class="col" fxLayout="row">
+                    <button fxFlex (click)="isDisabled(admin)" class="btn" [ngClass]="admin.isDisabled ? 'btn-success' :'btn-dark'">
+                      {{admin.isDisabled? 'Activer':'Désactiver'}}
+                    </button>
+                  </div>
+                  <div class="col" fxLayout="row">
+                    <button fxFlex  class="btn btn-danger" data-toggle="modal"[attr.data-target]="'#modal-delete-category-'+admin._id" data-dismiss="modal">Supprimer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

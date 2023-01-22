@@ -1,0 +1,60 @@
+<div class="login bg-primary-gradient">
+  <div class="wrapper wrapper-login">
+    <div fxLayout="column" class="container container-login animated fadeIn">
+      <div fxLayout="row" fxFlex fxLayoutAlign="center">
+        <img [src]="logo" style="padding: 0;margin: 10px;" height="35" alt="navbar brand" class="navbar-brand">
+      </div>
+      <h3 class="text-center">Entrez vos identifiants pour vous connecter</h3>
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="form-group form-floating-label">
+          <input formControlName="login"  id="username" name="username" type="text" class="form-control input-border-bottom"
+          [ngClass]="{ 'is-invalid': submitted && loginForm.controls.login.errors }">
+            <div *ngIf="submitted && loginForm.controls.login.errors" class="invalid-feedback">
+              <div *ngIf="loginForm.controls.login.errors.required">Le nom du produit est réquis !</div>
+            </div>
+          <label for="username" class="placeholder">Login</label>
+        </div>
+        <div class="form-group form-floating-label">
+          <input formControlName="password" id="password" name="password" [type]="isVisible ? 'text':'password'" class="form-control input-border-bottom"
+          [ngClass]="{ 'is-invalid': submitted && loginForm.controls.password.errors }">
+            <div *ngIf="submitted && loginForm.controls.password.errors" class="invalid-feedback">
+              <div *ngIf="loginForm.controls.password.errors.required">Le nom du produit est réquis !</div>
+            </div>
+          <label for="password" class="placeholder">Mot de passe</label>
+          <div class="show-password" (click)="togglePasswordVisibility()">
+            <i class="icon-eye"></i>
+          </div>
+        </div>
+        <div class="row form-sub m-0">
+          <!-- <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="rememberme">
+            <label class="custom-control-label" for="rememberme">Se souvenir de moi</label>
+          </div> -->
+
+        <!-- Message d'erreur -->
+        <div *ngIf="errorMessage" class="alert alert_ col-12" fxLayout="row" fxLayoutAlign="space-between center">
+          <div  fxLayout="row" fxLayoutGap="10px">
+            <h5 ><i class="icon fas fa-exclamation-triangle"></i></h5>
+            <span>{{errorMessage}}</span>
+          </div>
+
+            <button fxFlex="5"  type="button" class="close" style="background: none;" data-dismiss="alert" aria-hidden="true">&times;</button>
+
+
+
+        </div>
+        <!-- Fin Message d'erreur -->
+
+          <!-- <a href="#" class="link float-right">Forget Password ?</a> -->
+        </div>
+        <div class="form-action mb-3">
+          <button type="submit" (click)="login()" class="btn btn-primary btn-rounded btn-login btn-border btn-round">Se connecter</button>
+        </div>
+        <!-- <div class="login-account">
+          <span class="msg">Don't have an account yet ?</span>
+          <a href="#" id="show-signup" class="link">Sign Up</a>
+        </div> -->
+      </form>
+    </div>
+  </div>
+</div>

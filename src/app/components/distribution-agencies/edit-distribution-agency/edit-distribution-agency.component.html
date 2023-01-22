@@ -1,0 +1,59 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="VILLES"
+        [breadcrumb]="[
+        {name : 'Paramètres',link : '',icone : 'fas fa-cog'},
+        {name : 'Mes agences',link : '',icone : 'fas fa-map-marker-alt'},
+        {name : 'Modifier une agence de distribution',link : '',icone : 'far fa-edit'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <form class="card" [formGroup]="editAgencyForm" (ngSubmit)="modify()">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">Modifier une agence de distribution</h4>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/parametres/agences-de-distribution/']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row" fxLayoutAlign="row wrap">
+
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Code</label>
+                  <input formControlName="code" class="form-control"   placeholder="Code de l'agence de distribution'"
+                  [ngClass]="{ 'is-invalid': submitted && editAgencyForm.controls.code.errors }">
+                  <div *ngIf="submitted && editAgencyForm.controls.code.errors" class="invalid-feedback">
+                    <div *ngIf="editAgencyForm.controls.code.errors.required">Le code de l'agence est réquis !</div>
+                  </div>
+                </div>
+
+                <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+                  <label for="exampleFormControlSelect1">Ville</label>
+                  <select  formControlName="idCity" class="form-control" id="exampleFormControlSelect1"
+                  [ngClass]="{ 'is-invalid': submitted && editAgencyForm.controls.idCity.errors }">
+                    <option *ngFor="let city of cities" [value]="city._id">{{city.name}}</option>
+                  </select>
+                  <div *ngIf="submitted && editAgencyForm.controls.idCity.errors" class="invalid-feedback">
+                    <div *ngIf="editAgencyForm.controls.idCity.errors.required">La ville est réquise !</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-action">
+              <button class="btn btn-success" type="submit">Sauvergarder les modifications</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal"[attr.data-target]="'#modal-delete-agency-'+agency._id">Supprimer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

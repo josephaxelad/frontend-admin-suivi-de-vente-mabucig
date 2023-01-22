@@ -1,1 +1,63 @@
 /* You can add global styles to this file, and also import other style files */
+.bg-1{
+  background-color: #f08080 !important;
+}
+
+.bg-2{
+  background-color: #800000 !important;
+}
+
+.sidebar .nav.nav-primary>.nav-item.active a i{
+  color:#8d9498 !important;
+}
+
+.mt-top{
+  @media screen and (max-width: 991px){
+    margin-top: 80px;
+  }
+  @media screen and (min-width: 992px){
+    margin-top: 60px;
+  }
+
+}
+
+.alert__{
+  background-color: lightsalmon;
+  color: chocolate;
+  padding: 10px;
+  border: #ececeb solid 1px;
+  border-radius: 10px;
+  margin: 10px 0;
+  box-shadow: none;
+}
+
+.main-panel{
+  max-width: none !important;
+}
+
+table.dataTable{
+  font-family: 'Font Awesome 5 Brands';
+  background-color: #0a2d51;
+  border-radius: 10px;
+  color: white;
+  thead{
+    tr{border-bottom: solid 1px #8d9498;}
+
+  }
+  td{
+    height: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  th{
+    height: 40px;
+  }
+}
+
+.elipsis{
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+

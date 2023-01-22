@@ -1,0 +1,46 @@
+<router-outlet></router-outlet>
+
+
+<!-- Modal -->
+<div *ngFor="let admin of admins" class="modal fade"  [id]="'modal-delete-category-'+admin._id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Suppression</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				Voulez-vous vraiment supprimer définitivement l'administrateur "{{ admin.login }}" ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" data-dismiss="modal">Fermer</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteHard(admin)">Supprimer </button>
+        <!-- <i class="fas fa-sign-out-alt"></i> -->
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div *ngFor="let admin of admins" class="modal fade"  [id]="'modal-reset-admin-password-'+admin._id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Réinitialisation du mot de passe</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				Voulez-vous vraiment réinitialiser le mot de passe de l'administrateur "{{ admin.login }}" ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" data-dismiss="modal">Fermer</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="resetPassword(admin)">Réinitialiser </button>
+        <!-- <i class="fas fa-sign-out-alt"></i> -->
+			</div>
+		</div>
+	</div>
+</div>

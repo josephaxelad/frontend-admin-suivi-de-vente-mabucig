@@ -1,0 +1,37 @@
+<form class="card-body" [formGroup]="editAdminUserForm"  (ngSubmit)="modifyUser()">
+  <div class="row mt-3" fxLayoutAlign="row wrap">
+    <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+      <div class="form-group form-group-default">
+        <label>Nom</label>
+        <input type="text" class="form-control" formControlName="lastname"
+        [ngClass]="{ 'is-invalid': submitted && editAdminUserForm.controls.lastname.errors }">
+        <div *ngIf="submitted && editAdminUserForm.controls.lastname.errors" class="invalid-feedback">
+          <div *ngIf="editAdminUserForm.controls.lastname.errors.required">Le nom est réquis !</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+      <div class="form-group form-group-default">
+        <label>Prénoms</label>
+        <input type="text" class="form-control" formControlName="firstname"
+        [ngClass]="{ 'is-invalid': submitted && editAdminUserForm.controls.firstname.errors }">
+        <div *ngIf="submitted && editAdminUserForm.controls.firstname.errors" class="invalid-feedback">
+          <div *ngIf="editAdminUserForm.controls.firstname.errors.required">Le prénom est réquis !</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+      <div class="form-group form-group-default">
+        <label>Login</label>
+        <input type="text" class="form-control" formControlName="login"
+        [ngClass]="{ 'is-invalid': submitted && editAdminUserForm.controls.login.errors }">
+        <div *ngIf="submitted && editAdminUserForm.controls.login.errors" class="invalid-feedback">
+          <div *ngIf="editAdminUserForm.controls.login.errors.required">Le login est réquis !</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-left mt-3 mb-3">
+    <button type="submit" class="btn btn-success">Sauvegarder les modifications</button>
+  </div>
+</form>

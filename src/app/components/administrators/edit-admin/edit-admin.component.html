@@ -1,0 +1,38 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="MON COMPTE"
+        [breadcrumb]="[
+        {name : 'Mon compte',link : '',icone : 'fas fa-user'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <div class="card card-with-nav">
+            <div class="card-header">
+              <div class="row row-nav-line">
+                <ul class="nav nav-tabs nav-line nav-color-secondary w-100 pl-4" role="tablist">
+                  <li class="nav-item"> <a class="nav-link " [ngClass]="{'active show': type == 'modifier-mes-informations-personnelles'}" data-toggle="tab" href="#nav-modifier-mes-informations-personnelles" role="tab" aria-selected="true">Mes informations personnelles</a> </li>
+                  <li class="nav-item"> <a class="nav-link" [ngClass]="{'active show': type == 'modifier-mon-mot-de-passe'}" data-toggle="tab" href="#nav-modifier-mon-mot-de-passe" role="tab" aria-selected="false">Mot de passe</a> </li>
+                </ul>
+              </div>
+            </div>
+            <div class="tab-content" id="nav-tabContent">
+              <!-- <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div> -->
+              <div class="tab-pane fade "  [ngClass]="{' show active': type == 'modifier-mes-informations-personnelles'}" id="nav-modifier-mes-informations-personnelles" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <app-edit-user-admin></app-edit-user-admin>
+              </div>
+              <div class="tab-pane fade"  [ngClass]="{' show active': type == 'modifier-mon-mot-de-passe'}" id="nav-modifier-mon-mot-de-passe" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <app-edit-password-admin></app-edit-password-admin>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

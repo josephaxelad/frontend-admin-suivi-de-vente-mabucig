@@ -1,0 +1,57 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="CODES QR"
+        [breadcrumb]="[
+        {name : 'Mes produits',link : '/produits',icone : 'fas  fa-box'},
+        {name : 'Mes codes QR',link : '/codes-qr',icone : 'fas fa-qrcode'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">Mes codes QR</h4>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/produits']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Mes produits </span>&nbsp;
+                  <i class="fas  fa-box"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div *ngIf="!products.length" class="alert alert__ col-12" fxLayout="row" fxLayoutAlign="space-between center">
+                <div  fxLayout="row" fxLayoutGap="10px">
+                  <h5 ><i class="icon fas fa-exclamation-triangle"></i></h5>
+                  <span>Aucun produit n'a été ajouté !</span>
+                </div>
+              </div>
+
+              <div class="row row-projects" fxLayout="row wrap"  *ngIf="products.length"  >
+                <div fxFlex.lt-md="100" fxFlex="25" *ngFor="let product of products" style="padding: 10px;">
+                  <div class="card"  >
+                    <div  class="p-2" style="overflow: hidden;" fxLayout="row" fxLayoutAlign="center center" >
+                      <div #qrCode fxFlex [id]="product._id" fxLayout="row" fxLayoutAlign="center center"></div>
+                      <!-- <img class="card-img-top rounded" src="../assets/img/examples/product1.jpg" alt="Product 1"> -->
+                    </div>
+                    <div class="card-body pt-2">
+                      <h4 class="mb-1 fw-bold">{{product.sku}}</h4>
+                      <p class="text-muted small mb-2">{{product.mark?.name}}</p>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="end center" >
+                      <button (click)="download(product)" class="btn btn-success "><span class="btn-label"><i class="fas fa-download"></i></span> Télécharger</button>
+                      <!-- <button class="btn btn-primary btn-xs"><span class="btn-label"><i class="fas fa-print"></i></span> Imprimer</button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

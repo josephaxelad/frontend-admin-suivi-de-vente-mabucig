@@ -1,0 +1,45 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="GROUPES D'ENTREPRISE"
+        [breadcrumb]="[
+        {name : 'Paramètres',link : '',icone : 'fas fa-cog'},
+        {name : 'Mes groupes',link : '/parametres/groupes',icone : 'fas fa-plus-circle'},
+        {name : 'Modifier un groupe',link : '',icone : 'far fa-edit'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-12">
+          <form class="card"  [formGroup]="editGroupForm" (ngSubmit)="modify()">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">Modifier un groupe d'entreprise</h4>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/parametres/groupes/']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row" fxLayoutAlign="row wrap">
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Groupe</label>
+                  <input class="form-control" placeholder="Nom du groupe" formControlName="name"
+                  [ngClass]="{ 'is-invalid': submitted && editGroupForm.controls.name.errors }">
+                  <div *ngIf="submitted && editGroupForm.controls.name.errors" class="invalid-feedback">
+                    <div *ngIf="editGroupForm.controls.name.errors.required">Le groupe d'entreprise est réquis !</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-action">
+              <button class="btn btn-success" type="submit">Sauvergarder les modifications</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal"[attr.data-target]="'#modal-delete-group-'+group._id">Supprimer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

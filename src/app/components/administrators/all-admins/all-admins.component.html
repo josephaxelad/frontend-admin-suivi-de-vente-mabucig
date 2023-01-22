@@ -1,0 +1,106 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="ADMINISTRATEURS"
+        [breadcrumb]="[
+        {name : 'Mes administrateurs',link : '/administrateurs',icone : 'fas fa-users-cog'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">Mes administrateurs</h4>
+                <button class="btn btn-primary btn-round ml-auto"  [routerLink]="['/administrateurs/ajouter']" >
+                  <i class="fa fa-plus"></i>
+                    <span fxHide.lt-md> Ajouter un administrateur</span>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div *ngIf="!true" class="alert alert__ col-12" fxLayout="row" fxLayoutAlign="space-between center">
+                <div  fxLayout="row" fxLayoutGap="10px">
+                  <h5 ><i class="icon fas fa-exclamation-triangle"></i></h5>
+                  <span>Aucun admin !</span>
+                </div>
+
+                  <!-- <button fxFlex="5"  type="button" class="close" style="background: none;" data-dismiss="alert" aria-hidden="true">&times;</button> -->
+              </div>
+
+              <div *ngIf="!false" class="table-responsive">
+                <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                  <!-- Rechercher -- Début -->
+                  <div class="form-group" class="col-12" fxLayout="row" fxLayoutAlign="end center">
+                    <!-- <div class="input-icon">
+                      <input type="text" class="form-control form-control-sm" placeholder="Rechercher.." >
+                      <span class="input-icon-addon">
+                        <i class="fa fa-search"></i>
+                      </span>
+                    </div> -->
+                  </div>
+                  <!-- Rechercher -- Fin -->
+                   <div class="row">
+
+                      <div class="col-12">
+                         <table id="add-row" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
+                            <thead >
+                               <tr role="row" fxLayout="row" fxLayoutAlign="start center">
+                                  <th fxFlex fxLayout="row" fxLayoutAlign="start center" >Nom & Prénoms</th>
+                                  <th ></th>
+                               </tr>
+                            </thead>
+                            <tbody >
+                               <tr *ngFor="let admin of admins"  [ngStyle]="{'cursor':  ' pointer' }"  role="row" fxLayout="row" fxLayoutAlign="start center" class="odd"  >
+                                  <td [routerLink]="[ '/administrateurs/administrateur/'+admin._id ]" fxFlex fxLayout="row" fxLayoutAlign="start center" >
+                                    {{admin.lastname+" "+admin.firstname}} &nbsp; <span style="font-size: x-small;color: darkgray;">({{admin.login}})</span>
+                                    <span *ngIf="admin.role == 'admin'" class="badge badge-warning" style="margin: 0;margin-left: 10px;">Admin</span>
+                                    <span *ngIf="admin.role == 'superadmin'" class="badge badge-danger" style="margin: 0;margin-left: 10px;">Super-Admin</span>
+                                  </td>
+                                  <td fxLayout="row" fxLayoutAlign="start center">
+                                     <div class="form-button-action" fxLayout="row" fxLayoutAlign="start center">
+                                        <!-- <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
+                                        <i class="fa fa-edit"></i>
+                                        </button> -->
+                                        <button type="button" [routerLink]="['/administrateurs/administrateur/'+admin._id ]"  class="btn btn-sm btn-primary">
+                                          <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button *ngIf="admin.role == 'admin'" type="button" data-toggle="tooltip" title="" class="btn btn-sm btn-danger" data-original-title="Remove" data-toggle="modal"[attr.data-target]="'#modal-delete-category-'+admin._id">
+                                        <i class="fas fa-trash"></i>
+                                        </button>
+                                     </div>
+                                  </td>
+                               </tr>
+                            </tbody>
+                         </table>
+                      </div>
+                   </div>
+                   <div class="row">
+                      <div class="col-sm-12 col-md-7"  style="overflow-x: auto;">
+                         <div *ngIf="pages.length>1" class="dataTables_paginate paging_simple_numbers" id="add-row_paginate">
+                            <ul class="pagination">
+                                <li *ngIf="currentPage > 1" class="paginate_button page-item previous " id="add-row_previous" (click)="getAdminsBypage(currentPage-1)">
+                                 <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link" >Précédent</a>
+                                </li>
+                                <li *ngFor="let i of pages" class="paginate_button page-item" [class]="{'active' : i  == currentPage}" (click)="getAdminsBypage(i)">
+                                 <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                                </li>
+                                <li *ngIf="currentPage < numberTotalOfpage" class="paginate_button page-item next" id="add-row_next" (click)="getAdminsBypage(currentPage+1)">
+                                  <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="3" tabindex="0" class="page-link" >Suivant</a>
+                                </li>
+                            </ul>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

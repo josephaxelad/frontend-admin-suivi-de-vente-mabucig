@@ -1,0 +1,99 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="panel-header bg-primary-gradient">
+      <div class="page-inner py-5">
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+          <div>
+            <h2 class="text-white pb-2 fw-bold">MAB FLOWS</h2>
+            <h5 class="text-white op-7 mb-2">Bienvenue sur la page d'accueil</h5>
+          </div>
+          <div class="ml-md-auto py-2 py-md-0">
+            <a href="#" [routerLink]="['/codes-qr']"   class="btn btn-white btn-border btn-round mr-2">Imprimer Code Qr</a>
+            <!-- <a href="javascript:void(0)" title="à venir" class="btn btn-secondary btn-round">Statistiques</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-inner mt--5">
+      <div class="row row-card-no-pd mt--2">
+        <div class="col-sm-6 col-md-3" style="cursor: pointer;" [routerLink]="['/produits']" routerLinkActive="router-link-active" >
+          <div class="card card-stats card-round">
+            <div class="card-body ">
+              <div class="row">
+                <div class="col-5">
+                  <div class="icon-big text-center">
+                    <i class="flaticon-box-3 text-warning"></i>
+                  </div>
+                </div>
+                <div  class="col-7 col-stats">
+                  <div class="numbers">
+                    <p class="card-category">Produits</p>
+                    <h4 class="card-title">{{products.length}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3" style="cursor: pointer;" [routerLink]="['/grossistes']" routerLinkActive="router-link-active" >
+          <div class="card card-stats card-round">
+            <div class="card-body ">
+              <div class="row">
+                <div class="col-5">
+                  <div class="icon-big text-center">
+                    <i class="flaticon-user text-success"></i>
+                  </div>
+                </div>
+                <div class="col-7 col-stats">
+                  <div class="numbers">
+                    <p class="card-category">Grossistes</p>
+                    <h4 class="card-title">{{wholesalers.length}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3" style="cursor: pointer;" [routerLink]="['/semi-grossistes']" routerLinkActive="router-link-active" >
+          <div class="card card-stats card-round">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-5">
+                  <div class="icon-big text-center">
+                    <i class="flaticon-users text-danger"></i>
+                  </div>
+                </div>
+                <div class="col-7 col-stats">
+                  <div class="numbers">
+                    <p class="card-category">Semi-Grossistes</p>
+                    <h4 class="card-title">{{semiWholesalers.length}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3" style="cursor: pointer;" [routerLink]="['/ventes']" routerLinkActive="router-link-active" >
+          <div class="card card-stats card-round">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-5">
+                  <div class="icon-big text-center">
+                    <i class="flaticon-coins  text-primary"></i>
+                  </div>
+                </div>
+                <div class="col-7 col-stats">
+                  <div class="numbers">
+                    <p class="card-category">Ventes</p>
+                    <h4 class="card-title">{{orders.length}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

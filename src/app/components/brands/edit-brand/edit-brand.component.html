@@ -1,0 +1,46 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="MARQUES DE PRODUITS"
+        [breadcrumb]="[
+        {name : 'Paramètres',link : '',icone : 'fas fa-cog'},
+        {name : 'Mes marques',link : '/parametres/produits/marques',icone : 'fas fa-box'},
+        {name : 'Modifier une marque',link : '',icone : 'far fa-edit'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-12">
+          <form class="card" [formGroup]="editMarkForm" (ngSubmit)="modify()">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">Modifier une marque de produit</h4>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/parametres/produits/marques/']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row" fxLayoutAlign="row wrap">
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Marque</label>
+                  <input  class="form-control"  placeholder="Nom de la marque" formControlName="name"
+                  [ngClass]="{ 'is-invalid': submitted && editMarkForm.controls.name.errors }">
+                  <div *ngIf="submitted && editMarkForm.controls.name.errors" class="invalid-feedback">
+                    <div *ngIf="editMarkForm.controls.name.errors.required">La marque est réquise !</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-action">
+              <button class="btn btn-success" type="submit">Sauvergarder les modifications</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal"[attr.data-target]="'#modal-delete-mark-'+mark._id">Supprimer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

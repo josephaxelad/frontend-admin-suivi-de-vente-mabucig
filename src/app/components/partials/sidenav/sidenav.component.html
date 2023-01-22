@@ -1,0 +1,181 @@
+<!-- Sidebar -->
+<div class="sidebar sidebar-style-2"  [hidden]="!isAuth">
+  <div class="sidebar-wrapper scrollbar scrollbar-inner">
+    <div class="sidebar-content">
+      <div class="user">
+        <div class="avatar-sm float-left mr-2">
+          <span class="avatar-title rounded-circle border border-white">{{adminInitials}}</span>
+        </div>
+        <div class="info">
+          <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+            <span style="white-space: normal;">
+              {{currentAdmin?.firstname}} {{currentAdmin?.lastname}}
+              <span *ngIf="currentAdmin?.role == 'admin'" class="user-level">Administrateur</span>
+              <span *ngIf="currentAdmin?.role == 'superadmin'" class="user-level">Super-Administrateur</span>
+              <span *ngIf="currentAdmin?.role == 'root'" class="user-level">Root</span>
+              <span class="caret"></span>
+            </span>
+          </a>
+          <div class="clearfix"></div>
+
+          <div class="collapse in" id="collapseExample">
+            <ul class="nav">
+              <li>
+                <a href="javascript:void(0)" [routerLink]="['/mon-compte']" [queryParams]="{type: 'modifier-mes-informations-personnelles'}">
+                  <span class="link-collapse">Editer mon profil</span>
+                </a>
+              </li>
+              <li>
+                <a  href="javascript:void(0)" [routerLink]="['/mon-compte']" [queryParams]="{type: 'modifier-mon-mot-de-passe'}">
+                  <span class="link-collapse">Changer de mot de passe</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <ul class="nav nav-primary">
+        <li class="nav-section">
+          <span class="sidebar-mini-icon">
+            <i class="fa fa-ellipsis-h"></i>
+          </span>
+          <h4 class="text-section">Menu</h4>
+        </li>
+        <li class="nav-item" [routerLink]="['/accueil']" routerLinkActive="active">
+          <a href="javascript:void(0)" >
+            <i class="fas fa-home"></i>
+            <p>Accueil</p>
+            <!-- <span class="badge badge-success">4</span> -->
+          </a>
+        </li>
+        <li class="nav-item" [routerLink]="['/produits']" routerLinkActive="active">
+          <a href="javascript:void(0)">
+            <i class="fas  fa-box"></i>
+            <p>Produits</p>
+            <!-- <span class="badge badge-success">4</span> -->
+          </a>
+        </li>
+        <li class="nav-item" [routerLink]="['/ventes']" routerLinkActive="active">
+          <a href="javascript:void(0)">
+            <i class="fas fa-coins"></i>
+            <p>Ventes</p>
+            <!-- <span class="badge badge-success">4</span> -->
+          </a>
+        </li>
+        <li class="nav-item" [routerLink]="['/grossistes']" routerLinkActive="active">
+          <a href="javascript:void(0)">
+            <i class="fas fa-user-friends"></i>
+            <p>Grossistes</p>
+            <!-- <span class="badge badge-success">4</span> -->
+          </a>
+        </li>
+        <li class="nav-item" [routerLink]="['/semi-grossistes']" routerLinkActive="active">
+          <a  href="javascript:void(0)">
+            <i class="fas fa-users"></i>
+            <p>Semi-Grossistes</p>
+            <!-- <span class="badge badge-success">4</span> -->
+          </a>
+        </li>
+        <li [hidden]="currentAdmin?.role == 'admin'" class="nav-item" [routerLink]="['/administrateurs']" routerLinkActive="active">
+          <a href="javascript:void(0)">
+            <i class="fas fa-users-cog"></i>
+            <p>Administrateurs</p>
+            <!-- <span class="badge badge-success">4</span> -->
+          </a>
+        </li>
+        <li [hidden]="currentAdmin?.role == 'admin'" class="nav-item submenu" routerLinkActive="active" >
+          <a data-toggle="collapse"  href="#submenu" class="" aria-expanded="false">
+            <i class="fas fa-cog"></i>
+            <p>Paramètres</p>
+            <span class="caret"></span>
+          </a>
+          <div class="collapse " id="submenu" >
+            <ul class="nav nav-collapse">
+              <li [routerLink]="['/parametres/groupes']" routerLinkActive="active" >
+                <a href="javascript:void(0)" >
+                  <i class="fas fa-building"></i>
+                  <span >Groupes d'entreprises</span>
+                </a>
+                <!-- <div class="collapse " id="subnav1" >
+                  <ul class="nav nav-collapse subnav">
+                    <li  [routerLink]="['/parametres/groupes']" routerLinkActive="active">
+                      <a href="javascript:void(0)">
+                        <i class="fas fa-plus-circle" ></i>
+                        <span >Ajouter un groupe d'entreprise</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div> -->
+              </li>
+              <li class="submenu">
+                <a data-toggle="collapse" href="#subnav2" class="" aria-expanded="false">
+                  <i class="fas fa-box"></i>
+                  <span >Produits</span>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse " id="subnav2" >
+                  <ul class="nav nav-collapse subnav">
+                    <li [routerLink]="['/parametres/produits/ajouter']" routerLinkActive="active">
+                      <a href="javascript:void(0)">
+                        <i class="fas fa-plus-circle" ></i>
+                        <span >Ajouter un produit</span>
+                      </a>
+                    </li>
+                    <li [routerLink]="['/parametres/produits/marques/']" routerLinkActive="active">
+                      <a href="javascript:void(0)">
+                        <i class="fas fa-box" ></i>
+                        <span >Marques de produits</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li [routerLink]="['/parametres/agences-de-distribution']" routerLinkActive="active">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-store-alt " ></i>
+                  <span >Agences de distribution</span>
+                </a>
+              </li>
+              <li [routerLink]="['/parametres/villes']" routerLinkActive="active">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-map-marker-alt" ></i>
+                  <span >Villes</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item" style="border-top: 1px solid #f1f1f1;">
+          <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal1">
+            <i class="fas fa-sign-out-alt"></i>
+            <p>Déconnexion </p>
+            <!-- <span class="badge badge-success">4</span> -->
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- End Sidebar -->
+
+<!-- Modal -->
+<div class="modal fade" id="logoutModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Déconnexion</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				Voulez-vous vraiment vous déconnecter ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" data-dismiss="modal">Fermer</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="logout()">Se déconnecter <i class="fas fa-sign-out-alt"></i></button>
+			</div>
+		</div>
+	</div>
+</div>

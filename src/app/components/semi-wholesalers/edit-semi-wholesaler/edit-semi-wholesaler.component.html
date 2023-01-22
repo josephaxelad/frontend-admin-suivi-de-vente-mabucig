@@ -1,0 +1,118 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="SEMI-GROSSISTES"
+        [breadcrumb]="[
+        {name : 'Mes semi-grossistes',link : '/semi-grossistes',icone : 'fas fa-user-friends'},
+        {name : 'Modifier un semi-grossiste',link : '',icone : 'far fa-edit'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-12">
+          <form class="card" [formGroup]="editSemiWholesalerForm" (ngSubmit)="modify()"  *ngIf="semiWholesaler">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">Modifier un semi-grossiste</h4>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/semi-grossistes']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row" fxLayoutAlign="row wrap">
+
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Grossiste</label>
+                  <select formControlName="idWholesaler" class="form-control" id="exampleFormControlSelect1"
+                  [ngClass]="{ 'is-invalid': submitted && editSemiWholesalerForm.controls.idWholesaler.errors }">
+                    <option *ngFor="let wholesaler of wholesalers" [value]="wholesaler._id">{{wholesaler.name}}</option>
+                  </select>
+                  <div *ngIf="submitted && editSemiWholesalerForm.controls.idWholesaler.errors" class="invalid-feedback">
+                    <div *ngIf="editSemiWholesalerForm.controls.idWholesaler.errors.required">Le grossiste du semi-grossiste est réquis !</div>
+                  </div>
+                </div>
+
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Compte</label>
+                  <input formControlName="idAccount" class="form-control" placeholder="Numéro du compte"
+                  [ngClass]="{ 'is-invalid': submitted && editSemiWholesalerForm.controls.idAccount.errors }">
+                  <div *ngIf="submitted && editSemiWholesalerForm.controls.idAccount.errors" class="invalid-feedback">
+                    <div *ngIf="editSemiWholesalerForm.controls.idAccount.errors.required">Le compte du semi-grossiste est réquis !</div>
+                  </div>
+                </div>
+
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Nom</label>
+                  <input formControlName="name" class="form-control" placeholder="Nom du semi-grossiste"
+                  [ngClass]="{ 'is-invalid': submitted && editSemiWholesalerForm.controls.name.errors }">
+                  <div *ngIf="submitted && editSemiWholesalerForm.controls.name.errors" class="invalid-feedback">
+                    <div *ngIf="editSemiWholesalerForm.controls.name.errors.required">Le nom du semi-grossiste est réquis !</div>
+                  </div>
+                </div>
+
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Numéro 1</label>
+                  <input formControlName="phone1" class="form-control" placeholder="Numéro de téléphone 1 du semi-grossiste"
+                  [ngClass]="{ 'is-invalid': submitted && editSemiWholesalerForm.controls.phone1.errors }">
+                  <div *ngIf="submitted && editSemiWholesalerForm.controls.phone1.errors" class="invalid-feedback">
+                    <div *ngIf="editSemiWholesalerForm.controls.phone1.errors.required">Le numéro de téléphone du semi-grossiste est réquis !</div>
+                  </div>
+                </div>
+
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Numéro 2</label>
+                  <input formControlName="phone2" class="form-control" placeholder="Numéro de téléphone 2 du semi-grossiste">
+                </div>
+
+                <div fxFlex="100" fxLayout="row wrap">
+
+
+                  <div fxFlex="100" fxLayout="row" fxLayoutAlign="center end" style="margin-top: 20px;margin-bottom: 0px;font-weight: bold">
+                    <h5 style="font-weight: bold">Adresse du semi-grossiste</h5>
+                  </div>
+                  <hr fxFlex="100" style="margin-top: 0px;height:1px;border-width:0;color:#ebecec;background-color:#ebecec">
+
+                  <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                    <label for="exampleInputEmail1">Adresse</label>
+                    <input formControlName="address" class="form-control" placeholder="Adresse du semi-grossiste"
+                    [ngClass]="{ 'is-invalid': submitted && editSemiWholesalerForm.controls.address.errors }">
+                    <div *ngIf="submitted && editSemiWholesalerForm.controls.address.errors" class="invalid-feedback">
+                      <div *ngIf="editSemiWholesalerForm.controls.address.errors.required">L'adresse du semi-grossiste est réquise !</div>
+                    </div>
+                  </div>
+
+                  <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                    <label for="exampleFormControlSelect1">Ville</label>
+                    <select formControlName="idCity" class="form-control" id="exampleFormControlSelect1"
+                    [ngClass]="{ 'is-invalid': submitted && editSemiWholesalerForm.controls.idCity.errors }">
+                      <option *ngFor="let city of cities" [value]="city._id">{{city.name}}</option>
+                    </select>
+                    <div *ngIf="submitted && editSemiWholesalerForm.controls.idCity.errors" class="invalid-feedback">
+                      <div *ngIf="editSemiWholesalerForm.controls.idCity.errors.required">La ville du semi-grossiste est réquise !</div>
+                    </div>
+                  </div>
+
+                  <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                    <label for="exampleInputEmail1">Quartier</label>
+                    <input formControlName="neighborhood" class="form-control" placeholder="Quartier "
+                    [ngClass]="{ 'is-invalid': submitted && editSemiWholesalerForm.controls.neighborhood.errors }">
+                    <div *ngIf="submitted && editSemiWholesalerForm.controls.neighborhood.errors" class="invalid-feedback">
+                      <div *ngIf="editSemiWholesalerForm.controls.neighborhood.errors.required">Le quartier du semi-grossiste est réquis !</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-action">
+              <button class="btn btn-success" type="submit">Sauvergarder les modifications</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal"[attr.data-target]="'#modal-delete-semi-wholesaler-'+semiWholesaler._id">Supprimer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

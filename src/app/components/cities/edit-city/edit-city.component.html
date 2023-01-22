@@ -1,0 +1,48 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="VILLES"
+        [breadcrumb]="[
+        {name : 'Paramètres',link : '',icone : 'fas fa-cog'},
+        {name : 'Mes villes',link : '/parametres/villes',icone : 'fas fa-map-marker-alt'},
+        {name : 'Modifier une ville',link : '',icone : 'far fa-edit'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <form class="card" [formGroup]="editCityForm" (ngSubmit)="modify()">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">Modifier une ville</h4>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/parametres/villes/']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row" fxLayoutAlign="row wrap">
+                <div class="col-md-6 col-lg-4" fxFlex.lt-md="100" fxFlex="50">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Ville</label>
+                    <input type="email" class="form-control" formControlName="name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nom de la ville"
+                    [ngClass]="{ 'is-invalid': submitted && editCityForm.controls.name.errors }">
+                    <div *ngIf="submitted && editCityForm.controls.name.errors" class="invalid-feedback">
+                      <div *ngIf="editCityForm.controls.name.errors.required">La ville est réquise !</div>
+                    </div>
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-action">
+              <button class="btn btn-success" type="submit">Sauvergarder les modifications</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal"[attr.data-target]="'#modal-delete-city-'+city._id">Supprimer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

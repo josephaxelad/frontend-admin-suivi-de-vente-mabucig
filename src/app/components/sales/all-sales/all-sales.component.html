@@ -1,0 +1,937 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+      <app-page-header title="VENTES" [breadcrumb]="[
+        {name : 'Mes ventes',link : '/semi-grossistes',icone : 'fas fa-coins'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="d-flex align-items-center"  fxLayout="row" fxLayoutAlign="space-between center">
+                <h4 class="card-title">{{view == 0 ? 'Mes ventes' : 'Mes rapports'}}</h4>
+                <!-- <button class="btn btn-primary btn-round ml-auto" [routerLink]="['/grossistes/ajouter']" >
+                  <i class="fa fa-plus"></i>
+                  Ajouter un grossiste
+                </button> -->
+                <div class="btn-group btn-group-toggle btn-group-sm btn-toggle-sales-rapport" data-toggle="buttons" >
+                  <label class="btn btn-secondary " [ngClass]="{'active' : view == 0}" style="color: white !important;"(click)="view = 0">
+                    <input type="radio" name="options" id="option1" [checked]="view == 0" ><i class="fas fa-coins"></i> Ventes
+                  </label>
+                  <label class="btn btn-secondary" [ngClass]="{'active' : view == 1}" style="color: white !important;" (click)="view = 1">
+                    <input type="radio" name="options" id="option2" [checked]="view == 1" ><i class="fas fa-chart-line"></i> Rapport
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body" *ngIf="view == 0">
+
+
+              <div  class="row" class="col-12" style="margin-bottom: 15px;">
+                <div class="col-12" fxLayout="row" fxLayoutAlign="end center">
+                  <!-- Rechercher -- Début -->
+                  <div class="form-group" class="col-12" fxLayout="row" fxLayoutAlign="end center">
+                    <!-- <div class="input-icon">
+                      <input type="text" class="form-control form-control-sm" placeholder="Rechercher..">
+                      <span class="input-icon-addon">
+                        <i class="fa fa-search"></i>
+                      </span>
+                    </div> -->
+                    &nbsp;
+                    <div style="position: relative;">
+                      <button data-toggle="modal" [attr.data-target]="'#modal-filtrer-ventes'"
+                      class="btn btn-primary btn-sm"><i class="fas fa-filter"></i> </button>
+                      <span *ngIf="isFiltered" style="position: absolute;height: 10px;width: 10px;background-color: red;border-radius: 50%;top: -3px;right: -3px;"></span>
+                    </div>&nbsp;
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-upload"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                        <a (click)="exportExcel()" class="dropdown-item" href="javascript:void(0)"><i class="fas fa-file-excel"></i> Exporter pour Excel</a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Rechercher -- Fin -->
+                </div>
+              </div>
+
+              <div *ngIf="!orders.length" class="alert alert__ col-12" fxLayout="row"
+                fxLayoutAlign="space-between center">
+                <div fxLayout="row" fxLayoutGap="10px">
+                  <h5><i class="icon fas fa-exclamation-triangle"></i></h5>
+                  <span>Aucune vente trouvée !</span>
+                </div>
+
+                <!-- <button fxFlex="5"  type="button" class="close" style="background: none;" data-dismiss="alert" aria-hidden="true">&times;</button> -->
+              </div>
+
+              <div *ngIf="ordersByPage.length" class="col-12">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th  scope="col" style="cursor: pointer" (click)="sortBy('date')" align="left">
+                          <div [ngClass]="{'isSorted':sorted.date != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sorted.date == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sorted.date == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Date</span>
+                          </div>
+                        </th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortBy('hour')" align="left">
+                          <div [ngClass]="{'isSorted':sorted.hour != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sorted.hour == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sorted.hour == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Heure</span>
+                          </div>
+                          </th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortBy('wholesalerName')" align="left">
+                          <div [ngClass]="{'isSorted':sorted.wholesalerName != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sorted.wholesalerName == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sorted.wholesalerName == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Grossiste</span>
+                          </div>
+                          </th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortBy('semiWholesalerName')" align="left">
+                          <div [ngClass]="{'isSorted':sorted.semiWholesalerName != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sorted.semiWholesalerName == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sorted.semiWholesalerName == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Semi-grossiste</span>
+                          </div>
+                          </th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortBy('productName')" align="left">
+                          <div [ngClass]="{'isSorted':sorted.productName != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sorted.productName == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sorted.productName == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Produit</span>
+                          </div></th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortBy('qty')" align="left">
+                          <div [ngClass]="{'isSorted':sorted.qty != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sorted.qty == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sorted.qty == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Quantité</span>
+                          </div>
+                          </th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortBy('price')" align="left">
+                          <div [ngClass]="{'isSorted':sorted.price != 0}"  fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sorted.price == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sorted.price == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Prix Unitaire</span>
+                          </div></th>
+                        <th scope="col"  style="cursor: pointer" (click)="sortBy('totalPrice')" align="left">
+                          <div [ngClass]="{'isSorted':sorted.totalPrice != 0}"  fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sorted.totalPrice == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sorted.totalPrice == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Montant Total</span>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let order of ordersByPage">
+                        <td>{{order.date | date:"d MMMM yyyy"}}</td>
+                        <td>{{order.date | date:"HH:mm"}}</td>
+                        <td>{{order.wholesaler.name}}</td>
+                        <td>{{order.semiWholesaler.name}}</td>
+                        <td>{{order.cart.product.sku}}</td>
+                        <td>{{order.cart.qty}}</td>
+                        <td>{{currencyFormat(order.cart.price," ")}} FCFA</td>
+                        <td>{{currencyFormat(order.cart.price*order.cart.qty," ")}} FCFA</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Pagination -->
+              <div class="row" style="margin: 15px 0px;">
+                <div class="col-sm-12 col-md-7" style="overflow-x: auto;">
+                  <div *ngIf="pages.length>1" class="dataTables_paginate paging_simple_numbers" id="add-row_paginate">
+                    <ul class="pagination">
+                      <li *ngIf="currentPage > 1" class="paginate_button page-item previous " id="add-row_previous"
+                        (click)="getOrdersBypage(currentPage-1)">
+                        <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="0" tabindex="0"
+                          class="page-link">Précédent</a>
+                      </li>
+                      <li *ngFor="let i of pages" class="paginate_button page-item"
+                        [class]="{'active' : i  == currentPage}" (click)="getOrdersBypage(i)">
+                        <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="1" tabindex="0"
+                          class="page-link">{{i}}</a>
+                      </li>
+                      <li *ngIf="currentPage < numberTotalOfpage" class="paginate_button page-item next"
+                        id="add-row_next" (click)="getOrdersBypage(currentPage+1)">
+                        <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="3" tabindex="0"
+                          class="page-link">Suivant</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Ancienne version -->
+              <div *ngIf="false">
+                <div *ngIf="orders.length">
+                  <div class="row">
+                    <div class="col-12">
+                      <ul class="list-group list-group-lg list-group-bordered">
+                        <li fxHide.lt-md data-toggle="modal" [attr.data-target]="'#details-vente'+order._id"
+                          *ngFor="let order of orders" class="list-group-item sale-item" fxLayout="row">
+                          <div class="date-time" fxFlex="20" fxLayout="row" fxLayoutAlign="center start">
+                            <div fxLayout="column" style="height: 100%;" fxFlex="100" fxLayoutAlign="center center">
+                              <span class="date">
+                                <h3>{{order.date | date:"d MMMM"}}</h3>
+                              </span>
+                              <span class="year">
+                                <h4>{{order.date | date:"yyyy"}}</h4>
+                              </span>
+                              <span class="time" fxLayout="row" fxLayoutAlign="center center"><i
+                                  class="fas fa-clock"></i> {{order.date | date:"HH:mm"}}</span>
+                            </div>
+                          </div>
+                          <div class="wholesaler" fxFlex="30" fxLayout="row" fxLayoutAlign="center end">
+                            <div fxLayout="column" style="height: 100%;" fxFlex="100" fxLayoutAlign="center end">
+                              <span fxLayout="row" fxLayoutAlign="center center"><i class="fas fa-user"></i>
+                                <h3 style="margin: 0;">{{order.wholesaler.name}}</h3>
+                              </span>
+                              <span class="localisation"><i class="fas fa-map-marker-alt"></i>
+                                {{order.wholesaler.agency?.city?.name}} </span>
+                              <span fxLayout="row" fxLayoutAlign="center center" class="type">
+                                <h5 style="margin: 0;">grossiste</h5>
+                                <i class="fas fa-angle-double-right"></i>
+                                <i class="fas fa-angle-double-right"></i>
+                                <i class="fas fa-angle-double-right"></i>
+                                <i class="fas fa-angle-double-right"></i>
+                              </span>
+                            </div>
+
+                          </div>
+                          <div class="semi-wholesaler" fxFlex="30" fxLayout="row" fxLayoutAlign="center start">
+                            <div fxLayout="column" style="height: 100%;" fxFlex="100" fxLayoutAlign="center start">
+                              <span fxLayout="row" fxLayoutAlign="center center"><i class="fas fa-user"></i>
+                                <h3 style="margin: 0;">{{order.semiWholesaler.name}}</h3>
+                              </span>
+                              <span class="localisation"><i class="fas fa-map-marker-alt"></i>
+                                {{order.semiWholesaler.address.city?.name}},
+                                {{order.semiWholesaler.address.neighborhood}} </span>
+                              <span class="type" fxLayout="row" fxLayoutAlign="center center">
+                                <i class="fas fa-angle-double-right"></i>
+                                <i class="fas fa-angle-double-right"></i>
+                                <i class="fas fa-angle-double-right"></i>
+                                <i class="fas fa-angle-double-right"></i>
+                                <h5 style="margin: 0;">semi-grossiste</h5>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="price" fxFlex="20" fxLayout="row" fxLayoutAlign="center end">
+                            <div fxLayout="column" style="height: 100%;" fxFlex="100" fxLayoutAlign="center center">
+                              <span fxLayoutAlign="center center">
+                                <h2>{{currencyFormat(order.price," ")}}</h2>
+                              </span>
+                              <span fxLayoutAlign="center center">
+                                <h3 style="font-weight: bold;">FCFA</h3>
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                        <li fxHide.gt-sm data-toggle="modal" [attr.data-target]="'#details-vente'+order._id"
+                          *ngFor="let order of orders" class="list-group-item sale-item" fxLayout="row">
+                          <div fxLayout="column" style="width: 100%;">
+
+                            <div class="date-time" style="width: 100%;" fxLayout="row" fxLayoutAlign="start center">
+                              <div fxLayout="row" fxFlex="100" fxLayoutAlign="space-between center">
+                                <div fxLayout="row" fxLayoutAlign="start center"><i class="fas fa-calendar"></i>
+                                  <span class="date">
+                                    <h5 style="margin: 0;">{{order.date | date:"d MMMM"}}</h5>
+                                  </span>
+                                  <span class="year">
+                                    <h5 style="margin: 0;">{{order.date | date:"yyyy"}}</h5>
+                                  </span>
+                                </div>
+
+                                <span class="time" fxLayout="row" fxLayoutAlign="center center"><i
+                                    class="fas fa-clock"></i> {{order.date | date:"HH:mm"}}</span>
+                              </div>
+                            </div>
+
+                            <div style="width: 100%;" fxLayout="row" fxLayoutAlign="space-between center">
+                              <div class="wholesaler" fxLayout="row">
+                                <span fxLayout="row" fxLayoutAlign="center center"><i class="fas fa-user"></i>
+                                  <h5 class="elipsis" style="margin: 0;">{{order.wholesaler.name}}</h5>
+                                </span>
+                              </div>
+                              <div class="semi-wholesaler" fxLayout="row">
+                                <span fxLayout="row" fxLayoutAlign="center center"><i class="fas fa-user"></i>
+                                  <h5 class="elipsis" style="margin: 0;">{{order.semiWholesaler.name}}</h5>
+                                </span>
+                              </div>
+                            </div>
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                              <span fxLayout="row" fxLayoutAlign="center center" style="color: red;" class="type">
+                                <h5 style="margin: 0;font-size: x-small;">grossiste</h5>
+                                <i style="font-size: x-small;" class="fas fa-angle-double-right"></i>
+                                <i style="font-size: x-small;" class="fas fa-angle-double-right"></i>
+                              </span>
+                              <span class="type" fxLayout="row" style="color: greenyellow;"
+                                fxLayoutAlign="center center">
+                                <i style="font-size: x-small;" class="fas fa-angle-double-right"></i>
+                                <i style="font-size: x-small;" class="fas fa-angle-double-right"></i>
+                                <h5 style="margin: 0;font-size: x-small;">semi-grossiste</h5>
+                              </span>
+                            </div>
+
+                            <div class="price" fxLayout="row" fxLayoutAlign="end center">
+                              <span fxLayoutAlign="center center">
+                                <h4 style="font-weight: bold;">{{currencyFormat(order.price," ")}}</h4>
+                              </span>
+                              <span fxLayoutAlign="center center">
+                                <h4 style="font-weight: bold;">&nbsp;FCFA</h4>
+                              </span>
+                            </div>
+                          </div>
+
+
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div *ngFor="let order of orders" class="modal" [id]="'details-vente'+order._id" tabindex="-1"
+                    role="dialog">
+                    <div class="modal-dialog modal-lg" style="overflow-y: initial !important;" role="document">
+                      <div class="modal-content modal-details-vente" style="background-color: #10375e;color : white">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Détails de la vente</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span style="color: white;" aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="details-vente-modal-header">
+                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="date-time">
+                              <i class="fas fa-calendar"></i>
+                              <span class="date">
+                                <h3 style="margin: 0;">{{order.date | date:"d MMMM"}}</h3>
+                              </span>
+                              <span class="year">
+                                <h3 style="margin: 0;">{{order.date | date:"yyyy"}}</h3>
+                              </span>
+                              <span class="time" fxLayout="row" fxLayoutAlign="center center"><i
+                                  class="fas fa-clock"></i> {{order.date | date:"HH:mm"}}</span>
+                            </div>
+                            <hr style="color: white !important;">
+                            <div fxLayout="row">
+                              <div fxFlex="50" class="wholesaler">
+                                <div fxLayout="column" fxLayoutAlign="center start">
+                                  <span fxLayout="row" fxLayoutAlign="center center"><i class="fas fa-user"></i>
+                                    <h3 style="margin: 0;"> {{order.wholesaler.name }}</h3>
+                                  </span>
+                                  <span class="localisation"><i class="fas fa-map-marker-alt"></i>
+                                    {{order.wholesaler.agency?.city?.name}}</span>
+                                </div>
+                              </div>
+                              <div fxFlex="50" class="semi-wholesaler" fxLayout="column" fxLayoutAlign="center end">
+                                <div fxLayout="column" fxLayoutAlign="center end">
+                                  <span fxLayout="row" fxLayoutAlign="center center"><i class="fas fa-user"></i>
+                                    <h3 style="margin: 0;">{{order.semiWholesaler.name }}</h3>
+                                  </span>
+                                  <span class="localisation"><i
+                                      class="fas fa-map-marker-alt"></i>{{order.semiWholesaler.address.city?.name}},
+                                    {{order.semiWholesaler.address.neighborhood}}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div fxLayout="row">
+                              <div fxFlex="50" fxLayout="row" fxLayoutAlign="end center">
+                                <span class="type wholesaler" fxLayout="row" fxLayoutAlign="center center">
+                                  <h5 style="margin: 0;">grossiste</h5>
+                                  <i class="fas fa-angle-double-right"></i>
+                                  <i class="fas fa-angle-double-right"></i>
+                                  <i class="fas fa-angle-double-right"></i>
+                                  <i class="fas fa-angle-double-right"></i>
+                                </span>
+                              </div>
+                              <div fxFlex="50" fxLayout="row" fxLayoutAlign="start center">
+                                <span class="type semi-wholesaler" fxLayout="row" fxLayoutAlign="center center">
+                                  <i class="fas fa-angle-double-right"></i>
+                                  <i class="fas fa-angle-double-right"></i>
+                                  <i class="fas fa-angle-double-right"></i>
+                                  <i class="fas fa-angle-double-right"></i>
+                                  <h5 style="margin: 0;">semi-grossiste</h5>
+                                </span>
+                              </div>
+                            </div>
+                            <hr style="color: white !important;">
+                          </div>
+                          <div>
+                            <table class="table table-bordered table-responsive">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Qté</th>
+                                  <th scope="col">Produit</th>
+                                  <th scope="col">Prix Unitaire</th>
+                                  <th scope="col">Total</th>
+                                </tr>
+                              </thead>
+                              <!--  style="height: 400px; overflow-y: auto;" -->
+                              <tbody *ngIf="order.cart.length">
+                                <tr *ngFor="let commandLine of order.cart">
+                                  <th scope="row">{{(commandLine.qty).toFixed(2)}}</th>
+                                  <td>{{commandLine.productName}}</td>
+                                  <td>{{currencyFormat(+(commandLine.price).toFixed(2)," ")}} FCFA</td>
+                                  <td>{{currencyFormat(+(commandLine.price * commandLine.qty).toFixed(2)," ")}} FCFA</td>
+                                </tr>
+                                <tr>
+                                  <th colspan="3" style="text-align: right;">Prix Total de la vente</th>
+                                  <td>{{currencyFormat(order.price," ")}} FCFA</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pagination -->
+                  <div class="row" style="margin: 15px 0px;">
+                    <div class="col-sm-12 col-md-7" style="overflow-x: auto;">
+                      <div *ngIf="pages.length>1" class="dataTables_paginate paging_simple_numbers"
+                        id="add-row_paginate">
+                        <ul class="pagination">
+                          <li *ngIf="currentPage > 1" class="paginate_button page-item previous " id="add-row_previous"
+                            (click)="getOrdersBypage(currentPage-1)">
+                            <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="0" tabindex="0"
+                              class="page-link">Précédent</a>
+                          </li>
+                          <li *ngFor="let i of pages" class="paginate_button page-item"
+                            [class]="{'active' : i  == currentPage}" (click)="getOrdersBypage(i)">
+                            <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="1" tabindex="0"
+                              class="page-link">{{i}}</a>
+                          </li>
+                          <li *ngIf="currentPage < numberTotalOfpage" class="paginate_button page-item next"
+                            id="add-row_next" (click)="getOrdersBypage(currentPage+1)">
+                            <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="3" tabindex="0"
+                              class="page-link">Suivant</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+            </div>
+
+            <div class="card-body" *ngIf="view == 1">
+
+
+              <div  class="row" class="col-12" style="margin-bottom: 15px;">
+                <div class="col-12" fxLayout="row" fxLayoutAlign="end center">
+                  <!-- Rechercher -- Début -->
+                  <div class="form-group" class="col-12" fxLayout="row" fxLayoutAlign="end center">
+                    <!-- <div class="input-icon">
+                      <input type="text" class="form-control form-control-sm" placeholder="Rechercher..">
+                      <span class="input-icon-addon">
+                        <i class="fa fa-search"></i>
+                      </span>
+                    </div> -->
+                    &nbsp;
+                    <div style="position: relative;">
+                      <button data-toggle="modal" [attr.data-target]="'#modal-filtrer-ventesR'"
+                      class="btn btn-primary btn-sm"><i class="fas fa-filter"></i> </button>
+                      <span *ngIf="isFilteredR" style="position: absolute;height: 10px;width: 10px;background-color: red;border-radius: 50%;top: -3px;right: -3px;"></span>
+                    </div>&nbsp;
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-upload"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                        <a (click)="exportExcelR()" class="dropdown-item" href="javascript:void(0)"><i class="fas fa-file-excel"></i> Exporter pour Excel</a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Rechercher -- Fin -->
+                </div>
+              </div>
+
+              <div *ngIf="!ordersR.length" class="alert alert__ col-12" fxLayout="row"
+                fxLayoutAlign="space-between center">
+                <div fxLayout="row" fxLayoutGap="10px">
+                  <h5><i class="icon fas fa-exclamation-triangle"></i></h5>
+                  <span>Aucune vente trouvée !</span>
+                </div>
+
+                <!-- <button fxFlex="5"  type="button" class="close" style="background: none;" data-dismiss="alert" aria-hidden="true">&times;</button> -->
+              </div>
+
+              <div *ngIf="ordersByPageR.length" class="col-12">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th  scope="col" style="cursor: pointer" (click)="sortByR('date')" align="left">
+                          <div [ngClass]="{'isSorted':sortedR.date != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sortedR.date == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sortedR.date == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Date</span>
+                          </div>
+                        </th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortByR('wholesalerName')" align="left">
+                          <div [ngClass]="{'isSorted':sortedR.wholesalerName != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sortedR.wholesalerName == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sortedR.wholesalerName == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Grossiste</span>
+                          </div>
+                          </th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortByR('semiWholesalerName')" align="left">
+                          <div [ngClass]="{'isSorted':sortedR.semiWholesalerName != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sortedR.semiWholesalerName == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sortedR.semiWholesalerName == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Semi-grossiste</span>
+                          </div>
+                          </th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortByR('productName')" align="left">
+                          <div [ngClass]="{'isSorted':sortedR.productName != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sortedR.productName == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sortedR.productName == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Produit</span>
+                          </div></th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortByR('qty')" align="left">
+                          <div [ngClass]="{'isSorted':sortedR.qty != 0}" fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sortedR.qty == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sortedR.qty == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Quantité</span>
+                          </div>
+                          </th>
+                        <th  scope="col" style="cursor: pointer" (click)="sortByR('totalPrice')" align="left">
+                          <div [ngClass]="{'isSorted':sortedR.totalPrice != 0}"  fxLayout="row" fxLayoutAlign=" center">
+                            <span fxLayout="column" fxLayoutAlign="center center" style="padding: 6px 4px ;" >
+                              <i fxFlexAlign="center" class="fas fa-sort-up"  [ngStyle]="{'color': sortedR.totalPrice == 1 ? 'white' : 'gray'}"></i>
+                              <i fxFlexAlign="center" class="fas fa-sort-down" [ngStyle]="{'color': sortedR.totalPrice == -1 ? 'white' : 'gray'}" ></i>
+                            </span>
+                            <span>Prix Total</span>
+                          </div></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let order of ordersByPageR">
+                        <td>{{order.date | date:"d MMMM yyyy"}}</td>
+                        <td>{{order.wholesaler.name}}</td>
+                        <td>{{order.semiWholesaler.name}}</td>
+                        <td>{{order.product?.sku}}</td>
+                        <td>{{(order.qty!).toFixed(2)}}</td>
+                        <td>{{currencyFormat(+(order.price).toFixed(2)," ")}} FCFA</td>
+                      </tr>
+                      <!-- <tr *ngFor="let order of reports">
+                        <td [attr.rowspan]="order.groupByWholesaler.group.length">
+                          {{order.date | date:"d MMMM yyyy"}}</td>
+                        <td>{{order.date | date:"HH:mm"}}</td>
+                        <td >{{order.groupByWholesaler.wholesaler.name}}</td>
+                        <td>
+                          {{order.groupByWholesaler.semiWholesaler.name}}
+                        </td>
+                        <td>
+                          {{order.product?.sku}}
+                        </td>
+                        <td>
+                          {{order.qty}}
+                        </td>
+                        <td>
+                          {{currencyFormat(order.price," ")}} FCFA
+                        </td>
+                        <td>{{currencyFormat(order.cart.price*order.cart.qty," ")}} FCFA</td>
+                      </tr> -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Pagination -->
+              <div class="row" style="margin: 15px 0px;">
+                <div class="col-sm-12 col-md-7" style="overflow-x: auto;">
+                  <div *ngIf="pagesR.length>1" class="dataTables_paginate paging_simple_numbers" id="add-row_paginate">
+                    <ul class="pagination">
+                      <li *ngIf="currentPageR > 1" class="paginate_button page-item previous " id="add-row_previous"
+                        (click)="getOrdersBypageR(currentPage-1)">
+                        <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="0" tabindex="0"
+                          class="page-link">Précédent</a>
+                      </li>
+                      <li *ngFor="let i of pagesR" class="paginate_button page-item"
+                        [class]="{'active' : i  == currentPageR}" (click)="getOrdersBypageR(i)">
+                        <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="1" tabindex="0"
+                          class="page-link">{{i}}</a>
+                      </li>
+                      <li *ngIf="currentPageR < numberTotalOfpageR" class="paginate_button page-item next"
+                        id="add-row_next" (click)="getOrdersBypageR(currentPageR+1)">
+                        <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="3" tabindex="0"
+                          class="page-link">Suivant</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal filtre Ventes-->
+<div class="modal" id="modal-filtrer-ventes" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" style="overflow-y: initial !important;" role="document">
+    <div class="modal-content modal-details-vente">
+      <div class="modal-header">
+        <h5 class="modal-title">Filtrer les ventes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span  aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div [formGroup]="filterSalesForm" class="modal-body">
+        <div fxLayout="row wrap">
+          <!-- Date Plage -->
+          <div [fxShow]="!isDateRange" fxLayout.lt-md="row wrap" fxFlex="100" fxLayoutAlign=" end">
+            <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+              <label>
+                <!-- <input id="toggle-date-range" type="checkbox" [checked]="isDateRange" (change)="isDateRange = !isDateRange"> -->
+                Par date, de :</label>
+              <div class="input-group">
+                <input  type="text" class="form-control" id="datepicker1"
+                [ngClass]="{ 'is-invalid':filterSalesForm.controls.minDate.errors }">
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+                <div *ngIf=" filterSalesForm.controls.minDate.errors" class="invalid-feedback">
+                  <div *ngIf="filterSalesForm.controls.minDate.errors.minMax">La date de début doit être inférieure à la date de fin !</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+              <label>à :</label>
+              <div class="input-group">
+                <input  type="text" class="form-control" id="datepicker2"
+                [ngClass]="{ 'is-invalid':filterSalesForm.controls.maxDate.errors }">
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+                <div *ngIf=" filterSalesForm.controls.maxDate.errors" class="invalid-feedback">
+                  <div *ngIf="filterSalesForm.controls.maxDate.errors.minMax">La date de début doit être inférieure à la date de fin !</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Heure Plage-->
+          <div [fxShow]="!isHourRange" fxLayout.lt-md="row wrap" fxFlex="100" fxLayoutAlign=" end">
+            <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+              <label>
+                <!-- <input id="toggle-hour-range" type="checkbox"  > -->
+                Par heure, de :</label>
+              <div class="input-group">
+                <input  type="text" class="form-control" id="timepicker1" name="timepicker1"
+                [ngClass]="{ 'is-invalid':filterSalesForm.controls.minHour.errors }">
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-clock"></i>
+                  </span>
+                </div>
+                <div *ngIf=" filterSalesForm.controls.minHour.errors" class="invalid-feedback">
+                  <div *ngIf="filterSalesForm.controls.minHour.errors.minMax">L'heure de début doit être inférieure à l'heure de fin !</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" fxFlex.lt-md="100" fxFlex="50" >
+              <label>à :</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="timepicker2" name="timepicker2"
+                [ngClass]="{ 'is-invalid':filterSalesForm.controls.maxHour.errors }">
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-clock"></i>
+                  </span>
+                </div>
+                <div *ngIf=" filterSalesForm.controls.maxHour.errors" class="invalid-feedback">
+                  <div *ngIf="filterSalesForm.controls.maxHour.errors.minMax">L'heure de début doit être inférieure à l'heure de fin !</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Grossistes -->
+          <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+            <label>Par grossistes:</label>
+            <div  class="select2-input select2-warning" >
+              <select  style="width: 100%" id="multiple-states-wholesalers" name="multiple2[]" class="form-control" multiple="multiple">
+                <option *ngFor="let wholesaler of wholesalers" [value]="wholesaler._id">{{wholesaler.name}}</option>
+              </select>
+            </div>
+          </div>
+          <!-- Semi-Grossistes -->
+          <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+            <label>Par semi-grossistes:</label>
+            <div class="select2-input select2-success">
+              <select style="width: 100%" id="multiple-states-semi-wholesalers" name="multiple2[]" class="form-control" multiple="multiple">
+                <option *ngFor="let semiWholesaler of semiWholesalers" [value]="semiWholesaler._id">{{semiWholesaler.name}}</option>
+              </select>
+            </div>
+          </div>
+          <!-- Produits -->
+          <div  class="form-group" fxFlex.lt-md="100" fxFlex="50">
+            <label>Par produits :</label>
+            <div class="select2-input select2-primary">
+              <select  style="width: 100%" id="multiple-states-products" class="form-control" multiple="multiple">
+                <option *ngFor="let product of products" [value]="product._id">{{product.sku}}</option>
+              </select>
+            </div>
+          </div>
+          <!-- Quantité vendue par produit -->
+          <div  class="form-group" fxFlex.lt-md="100" fxFlex="50">
+            <label>Par quantité vendue :</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">min</span>
+              </div>
+              <input min="0" formControlName="minQty" type="number" class="form-control"
+              [ngClass]="{ 'is-invalid':filterSalesForm.controls.minQty.errors }">
+              <div class="input-group-prepend">
+                <span class="input-group-text">max</span>
+              </div>
+              <input min="0" formControlName="maxQty" type="number" class="form-control"
+              [ngClass]="{ 'is-invalid':filterSalesForm.controls.maxQty.errors }">
+              <div *ngIf="filterSalesForm.controls.minQty.errors && filterSalesForm.controls.maxQty.errors" class="invalid-feedback">
+                <div *ngIf="filterSalesForm.controls.minQty.errors.minMax && filterSalesForm.controls.maxQty.errors.minMax">La quantité minimale doit être inférieure à la quantité maximale !</div>
+              </div>
+            </div>
+          </div>
+          <!-- Prix unitaire -->
+          <div  class="form-group" fxLayout="row wrap" fxFlex.lt-md="100" fxFlex="100">
+            <label fxFlex="100">Par prix unitaire :</label>
+            <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+            <div class="input-group mb-3" fxLayout="row wrap" >
+                <div class="input-group-prepend">
+                  <span class="input-group-text">min</span>
+                </div>
+                <input min="0" formControlName="minPrice" type="number" class="form-control"
+                [ngClass]="{ 'is-invalid':filterSalesForm.controls.minPrice.errors }">
+                <div class="input-group-append">
+                  <span class="input-group-text">FCFA</span>
+                </div>
+                <div *ngIf=" filterSalesForm.controls.minPrice.errors" class="invalid-feedback">
+                  <div *ngIf="filterSalesForm.controls.minPrice.errors.minMax">Le prix minimal doit être inférieur au prix maximal !</div>
+                </div>
+              </div>
+            </div>
+              <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+                <div class="input-group mb-3" fxLayout="row wrap" >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">max</span>
+                  </div>
+                  <input min="0" formControlName="maxPrice" type="number" class="form-control"
+                  [ngClass]="{ 'is-invalid':filterSalesForm.controls.maxPrice.errors }">
+                  <div class="input-group-append">
+                    <span class="input-group-text">FCFA</span>
+                  </div>
+                  <div *ngIf=" filterSalesForm.controls.maxPrice.errors" class="invalid-feedback">
+                    <div *ngIf="filterSalesForm.controls.maxPrice.errors.minMax">Le prix minimal doit être inférieur au prix maximal !</div>
+                  </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="reinitFilter()">Reinitialiser</button>
+        <button type="button" (click)="filter()"  class="btn btn-primary">Rechercher</button>
+        <!-- data-dismiss="modal" -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal filtre Rapports-->
+<div class="modal" id="modal-filtrer-ventesR" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" style="overflow-y: initial !important;" role="document">
+    <div class="modal-content modal-details-vente">
+      <div class="modal-header">
+        <h5 class="modal-title">Filtrer les rapports</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span  aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div [formGroup]="filterSalesRForm" class="modal-body">
+        <div fxLayout="row wrap">
+          <!-- Date Plage -->
+          <div [fxShow]="!isDateRange" fxLayout.lt-md="row wrap" fxFlex="100" fxLayoutAlign=" end">
+            <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+              <label>
+                <!-- <input id="toggle-date-range" type="checkbox" [checked]="isDateRange" (change)="isDateRange = !isDateRange"> -->
+                Par date, de :</label>
+              <div class="input-group">
+                <input  type="text" class="form-control" id="datepicker1R"
+                [ngClass]="{ 'is-invalid':filterSalesRForm.controls.minDate.errors }">
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+                <div *ngIf=" filterSalesRForm.controls.minDate.errors" class="invalid-feedback">
+                  <div *ngIf="filterSalesRForm.controls.minDate.errors.minMax">La date de début doit être inférieure à la date de fin !</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+              <label>à :</label>
+              <div class="input-group">
+                <input  type="text" class="form-control" id="datepicker2R"
+                [ngClass]="{ 'is-invalid':filterSalesRForm.controls.maxDate.errors }">
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+                <div *ngIf=" filterSalesRForm.controls.maxDate.errors" class="invalid-feedback">
+                  <div *ngIf="filterSalesRForm.controls.maxDate.errors.minMax">La date de début doit être inférieure à la date de fin !</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Grossistes -->
+          <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+            <label>Par grossistes:</label>
+            <div  class="select2-input select2-warning" >
+              <select  style="width: 100%" id="multiple-states-wholesalersR" name="multiple2[]" class="form-control" multiple="multiple">
+                <option *ngFor="let wholesaler of wholesalers" [value]="wholesaler._id">{{wholesaler.name}}</option>
+              </select>
+            </div>
+          </div>
+          <!-- Semi-Grossistes -->
+          <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+            <label>Par semi-grossistes:</label>
+            <div class="select2-input select2-success">
+              <select style="width: 100%" id="multiple-states-semi-wholesalersR" name="multiple2[]" class="form-control" multiple="multiple">
+                <option *ngFor="let semiWholesaler of semiWholesalers" [value]="semiWholesaler._id">{{semiWholesaler.name}}</option>
+              </select>
+            </div>
+          </div>
+          <!-- Produits -->
+          <div  class="form-group" fxFlex.lt-md="100" fxFlex="50">
+            <label>Par produits :</label>
+            <div class="select2-input select2-primary">
+              <select  style="width: 100%" id="multiple-states-productsR" class="form-control" multiple="multiple">
+                <option *ngFor="let product of products" [value]="product._id">{{product.sku}}</option>
+              </select>
+            </div>
+          </div>
+          <!-- Quantité vendue par produit -->
+          <div  class="form-group" fxFlex.lt-md="100" fxFlex="50">
+            <label>Par quantité vendue :</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">min</span>
+              </div>
+              <input min="0" formControlName="minQty" type="number" class="form-control"
+              [ngClass]="{ 'is-invalid':filterSalesRForm.controls.minQty.errors }">
+              <div class="input-group-prepend">
+                <span class="input-group-text">max</span>
+              </div>
+              <input min="0" formControlName="maxQty" type="number" class="form-control"
+              [ngClass]="{ 'is-invalid':filterSalesRForm.controls.maxQty.errors }">
+              <div *ngIf="filterSalesRForm.controls.minQty.errors && filterSalesRForm.controls.maxQty.errors" class="invalid-feedback">
+                <div *ngIf="filterSalesRForm.controls.minQty.errors.minMax && filterSalesRForm.controls.maxQty.errors.minMax">La quantité minimale doit être inférieure à la quantité maximale !</div>
+              </div>
+            </div>
+          </div>
+          <!-- Prix unitaire -->
+          <div  class="form-group" fxLayout="row wrap" fxFlex.lt-md="100" fxFlex="100">
+            <label fxFlex="100">Par prix unitaire :</label>
+            <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+            <div class="input-group mb-3" fxLayout="row wrap" >
+                <div class="input-group-prepend">
+                  <span class="input-group-text">min</span>
+                </div>
+                <input min="0" formControlName="minPrice" type="number" class="form-control"
+                [ngClass]="{ 'is-invalid':filterSalesRForm.controls.minPrice.errors }">
+                <div class="input-group-append">
+                  <span class="input-group-text">FCFA</span>
+                </div>
+                <div *ngIf=" filterSalesRForm.controls.minPrice.errors" class="invalid-feedback">
+                  <div *ngIf="filterSalesRForm.controls.minPrice.errors.minMax">Le prix minimal doit être inférieur au prix maximal !</div>
+                </div>
+              </div>
+            </div>
+              <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+                <div class="input-group mb-3" fxLayout="row wrap" >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">max</span>
+                  </div>
+                  <input min="0" formControlName="maxPrice" type="number" class="form-control"
+                  [ngClass]="{ 'is-invalid':filterSalesRForm.controls.maxPrice.errors }">
+                  <div class="input-group-append">
+                    <span class="input-group-text">FCFA</span>
+                  </div>
+                  <div *ngIf=" filterSalesRForm.controls.maxPrice.errors" class="invalid-feedback">
+                    <div *ngIf="filterSalesRForm.controls.maxPrice.errors.minMax">Le prix minimal doit être inférieur au prix maximal !</div>
+                  </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="reinitFilterR()">Reinitialiser</button>
+        <button type="button" (click)="filterR()"  class="btn btn-primary">Rechercher</button>
+        <!-- data-dismiss="modal" -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div fxLayout="column" fxLayoutAlign="center" style="padding: 6px 4px ;">
+  <i fxFlexAlign="center" class="fas fa-sort-up" style="color: gray;cursor: pointer;"></i>
+  <i fxFlexAlign="center" class="fas fa-sort-down" style="color: white;cursor: pointer;"></i>
+  </div> -->

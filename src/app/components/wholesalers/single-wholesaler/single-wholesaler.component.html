@@ -1,0 +1,120 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+      <app-page-header
+      title="GROSSISTES"
+      [breadcrumb]="[
+      {name : 'Mes grossistes',link : '/grossistes',icone : 'fas fa-user-friends'},
+      {name : 'Détails grossiste',link : '',icone : 'fas fa-info-circle'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <div class="card-body" >
+            <div class="card " style="margin-bottom: 0;" >
+              <div class="card-header" style="background-color: white;" fxLayout="row" fxLayoutAlign="start center">
+                <!-- <div class="avatar-sm float-left mr-2">
+                  <span class="avatar-title rounded-circle border border-white" style="background-color: black;">{{getInitials(admin)}}</span>
+                </div> -->
+                <div class="avatar">
+                  <img src="https://via.placeholder.com/50x50" alt="..." class="avatar-img rounded">
+                </div>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/grossistes']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+              </div>
+              <div class="card-body"style="padding-top: 10px ;" >
+                <div class="row" fxLayout="row wrap" >
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Compte </label>
+                      <input  type="text" class="form-control" [value]="wholesaler.idAccount" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Nom </label>
+                      <input  type="text" class="form-control" [value]="wholesaler.name" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Login </label>
+                      <input  type="text" class="form-control" [value]="wholesaler.login" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Numéro </label>
+                      <input  type="text" class="form-control" [value]="wholesaler.phone" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div *ngIf="wholesaler.group?.name" class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Groupe d'entreprises </label>
+                      <div *ngIf="wholesaler.group?.name" class="desc badge badge-warning" style="color: white;">{{wholesaler.group?.name}}</div>
+                      <!-- <input *ngIf="!wholesaler.group?.name"  type="text" class="form-control" [value]="'Aucun'" disabled style="color: black;background-color: white !important;"> -->
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Entreprise </label>
+                      <input  type="text" class="form-control" [value]="wholesaler.company" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Agence de distribution </label>
+                      <div  class="desc badge badge-warning" style="color: white;">{{wholesaler.agency?.city?.name}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Marchés</label>
+                      <div *ngFor="let market of wholesaler.markets" class="desc badge badge-warning" style="color: white;">{{market.name}}</div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="user-profile text-center">
+
+                  <div class="view-profile"  >
+                    <button type="button" class="btn btn-primary btn-block"
+                    data-toggle="modal"[attr.data-target]="'#modal-reset-wholesaler-password-'+wholesaler._id" data-dismiss="modal" >
+                      Réinitialiser mot de passe <i class="fas fa-lock-open"></i> </button>
+                  </div>
+
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="row user-stats text-center" >
+                  <div class="col" fxLayout="row">
+                    <button fxFlex (click)="isDisabled(wholesaler)" class="btn" [ngClass]="wholesaler.isDisabled ? 'btn-success' :'btn-dark'">
+                      {{wholesaler.isDisabled? 'Activer':'Désactiver'}}
+                    </button>
+                  </div>
+                  <div class="col" fxLayout="row">
+                    <button fxFlex  class="btn btn-danger" data-toggle="modal"[attr.data-target]="'#modal-delete-wholesaler-'+wholesaler._id" data-dismiss="modal">Supprimer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

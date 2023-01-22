@@ -1,0 +1,58 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="AGENCES DE DISTRIBUTION"
+        [breadcrumb]="[
+        {name : 'Paramètres',link : '',icone : 'fas fa-cog'},
+        {name : 'Mes agences',link : '/parametres/agences-de-distribution',icone : 'fas fa-store-alt'},
+        {name : 'Ajouter une agence',link : '',icone : 'fas fa-plus-circle'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-12">
+          <form class="card" [formGroup]="addAgencyForm" (ngSubmit)="add()">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">Ajouter une agence de distribution</h4>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/parametres/agences-de-distribution/']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row" fxLayoutAlign="row wrap">
+
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Code</label>
+                  <input formControlName="code" class="form-control"   placeholder="Code de l'agence de distribution'"
+                  [ngClass]="{ 'is-invalid': submitted && addAgencyForm.controls.code.errors }">
+                  <div *ngIf="submitted && addAgencyForm.controls.code.errors" class="invalid-feedback">
+                    <div *ngIf="addAgencyForm.controls.code.errors.required">Le code de l'agence est réquis !</div>
+                  </div>
+                </div>
+
+                <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+                  <label for="exampleFormControlSelect1">Ville</label>
+                  <select  formControlName="idCity" class="form-control" id="exampleFormControlSelect1"
+                  [ngClass]="{ 'is-invalid': submitted && addAgencyForm.controls.idCity.errors }">
+                    <option *ngFor="let city of cities" [value]="city._id">{{city.name}}</option>
+                  </select>
+                  <div *ngIf="submitted && addAgencyForm.controls.idCity.errors" class="invalid-feedback">
+                    <div *ngIf="addAgencyForm.controls.idCity.errors.required">La ville est réquise !</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-action">
+              <button class="btn btn-success">Ajouter</button>
+              <!-- <button class="btn btn-danger">Retour</button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,134 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="PRODUITS"
+        [breadcrumb]="[
+        {name : 'Mes produits',link : '/produits',icone : 'fas fa-box'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="d-flex align-items-center" fxLayout="row" fxLayoutAlign="space-between center">
+                <h4 class="card-title">Mes produits</h4>
+                <div>
+                  <button class="btn btn-success btn-round ml-auto" [routerLink]="['/codes-qr']" >
+                    <i class="fas fa-qrcode"></i>
+                    <span fxHide.lt-md >Imprimer les codes QR</span>
+                  </button>&nbsp;
+                  <button [hidden]="currentAdmin?.role == 'admin'" class="btn btn-primary btn-round ml-auto" [routerLink]="['/parametres/produits/ajouter']" >
+                    <i class="fa fa-plus"></i>
+                    <span fxHide.lt-md >Ajouter un produit</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div *ngIf="!products.length" class="alert alert__ col-12" fxLayout="row" fxLayoutAlign="space-between center">
+                <div  fxLayout="row" fxLayoutGap="10px">
+                  <h5 ><i class="icon fas fa-exclamation-triangle"></i></h5>
+                  <span>Aucun produit n'a été ajouté !</span>
+                </div>
+
+                  <!-- <button fxFlex="5"  type="button" class="close" style="background: none;" data-dismiss="alert" aria-hidden="true">&times;</button> -->
+              </div>
+
+              <div *ngIf="products.length" class="row" class="col-12" style="margin-bottom: 15px;">
+                <div class="col-12" fxLayout="row" fxLayoutAlign="end center">
+                  <!-- Rechercher -- Début -->
+                  <div class="form-group" class="col-12" fxLayout="row" fxLayoutAlign="end center">
+                    <!-- <div class="input-icon">
+                      <input type="text" class="form-control form-control-sm" placeholder="Rechercher.." >
+                      <span class="input-icon-addon">
+                        <i class="fa fa-search"></i>
+                      </span>
+                    </div> -->
+                  </div>
+                  <!-- Rechercher -- Fin -->
+                </div>
+              </div>
+
+              <div *ngIf="products?.length" class="row">
+                <div *ngFor="let product of products ;let i = index" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                  <div class="card  d-flex flex-fill"><!-- bg-light -->
+                    <div class="card text-white mb-0"><!--  bg-dark -->
+                      <img style="padding: 15px;" [src]="prefUrlImage+'produits/'+product.picture" class="card-img" alt="...">
+                      <!-- <img *ngIf="product.picture" height="300" [src]="prefUrlProductsImage+product.picture" class="card-img" alt="..."> style="background-color: #0000007a;" -->
+                      <div class="card-img-overlay " >
+                        <div  fxLayout="row"  fxLayoutAlign="space-between start">
+
+
+
+
+                          <h5 class="card-title" style="color: white;">
+                            <span class="badge badge-primary"><b>  {{product.sku}} </b></span>
+                            </h5>
+                          <!-- <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                            <input type="checkbox" class="custom-control-input"  [checked]="true" [id]="'customSwitch'+product._id">
+                            (change)="isVisible($event,product)" [checked]="product.isVisible"
+                            <label class="custom-control-label text-muted text-sm"  [for]="'customSwitch'+product._id"></label>
+                          </div> -->
+                        </div>
+                        <h3> <span class="badge badge-info"><b > {{currencyFormat(product.price," ")}} FCFA</b></span> </h3>
+                        <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text">Last updated 3 mins ago</p> -->
+                        <!-- <div> <b>Description : </b> This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. </div> -->
+                        <h6><div> <span class="badge badge-primary">Marque : {{product.mark?.name}}</span> </div></h6>
+                        <h6><div> <span class="badge badge-primary"><b>Nombre de paquets par carton: </b> {{product.numberByPack}}</span> </div></h6>
+
+
+                      </div>
+                    </div>
+                    <!-- <div class="card-header text-muted border-bottom-0" >
+                      <h5>Product name</h5>
+                    </div> -->
+
+                    <div class="card-footer">
+                      <div [hidden]="currentAdmin?.role == 'admin'" class="text-right" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="end center">
+                        <!-- <a href="#" class="btn btn-sm bg-teal">
+                          <i class="fas fa-comments"></i> Supprimer Détails Modifier
+                        </a> -->
+                        <a href="javascript:void(0)" [routerLink]="['/produits/modifier/'+product._id]"  class="btn btn-sm btn-primary">
+                          <i class="fas fa-pencil-alt"></i> Modifier
+                        </a>
+                        <a href="javascript:void(0)" data-toggle="modal" [attr.data-target]="'#modal-delete-product-'+product._id" class="btn btn-sm btn-danger">
+                          <i class="fas fa-trash"></i> Supprimer
+                        </a>
+                        <!-- <a href="javascript:void(0)" [routerLink]="['/produits/produit/'+product._id]"  class="btn btn-sm btn-primary">
+                          <i class="fas fa-eye"></i>
+                        </a> -->
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-md-7" style="overflow-x: scroll;">
+                  <div *ngIf="pages.length>1" class="dataTables_paginate paging_simple_numbers" id="add-row_paginate">
+                     <ul class="pagination">
+                         <li *ngIf="currentPage > 1" class="paginate_button page-item previous " id="add-row_previous" (click)="getProductsBypage(currentPage-1)">
+                          <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link" >Précédent</a>
+                         </li>
+                         <li *ngFor="let i of pages" class="paginate_button page-item" [class]="{'active' : i  == currentPage}" (click)="getProductsBypage(i)">
+                          <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+                         </li>
+                         <li *ngIf="currentPage < numberTotalOfpage" class="paginate_button page-item next" id="add-row_next" (click)="getProductsBypage(currentPage+1)">
+                           <a href="javascript:void(0)" aria-controls="add-row" data-dt-idx="3" tabindex="0" class="page-link" >Suivant</a>
+                         </li>
+                     </ul>
+                  </div>
+               </div>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,126 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+       <app-page-header
+       title="SEMI-GROSSISTES"
+       [breadcrumb]="[
+       {name : 'Mes semi-grossistes',link : '/semi-grossistes',icone : 'fas fa-users'},
+       {name : 'Détails semi-grossiste',link : '',icone : 'fas fa-info-circle'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <div class="card-body" >
+            <div class="card " style="margin-bottom: 0;" >
+              <div class="card-header" style="background-color: white;" fxLayout="row" fxLayoutAlign="start center">
+                <!-- <div class="avatar-sm float-left mr-2">
+                  <span class="avatar-title rounded-circle border border-white" style="background-color: black;">{{getInitials(admin)}}</span>
+                </div> -->
+                <div class="avatar">
+                  <img src="https://via.placeholder.com/50x50" alt="..." class="avatar-img rounded">
+                </div>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/semi-grossistes']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+              </div>
+              <div class="card-body"style="padding-top: 10px ;" >
+                <div class="row" fxLayout="row wrap" >
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Grossiste </label>
+                      <input  type="text" class="form-control" [value]="semiWholesaler.wholesaler?.name" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Compte </label>
+                      <input  type="text" class="form-control" [value]="semiWholesaler.idAccount" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Nom </label>
+                      <input  type="text" class="form-control" [value]="semiWholesaler.name" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Numéro 1 </label>
+                      <input  type="text" class="form-control" [value]="semiWholesaler.phone1" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Numéro 2 </label>
+                      <input  type="text" class="form-control" [value]="semiWholesaler.phone2" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div fxFlex="100" fxLayout="row" fxLayoutAlign="center end" style="margin-top: 20px;margin-bottom: 0px;font-weight: bold">
+                    <h5 style="font-weight: bold">Adresse du semi-grossiste</h5>
+                  </div>
+                  <hr fxFlex="100" style="margin-top: 0px;height:1px;border-width:0;color:#ebecec;background-color:#ebecec">
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Adresse </label>
+                      <input  type="text" class="form-control" [value]="semiWholesaler.address.name" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Ville </label>
+                      <div  class="desc badge badge-warning" style="color: white;">{{semiWholesaler.address?.city?.name}}</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" fxFlex.lt-md="100" fxFlex="50">
+                    <div class="form-group form-group-default">
+                      <label>Quartier </label>
+                      <input  type="text" class="form-control" [value]="semiWholesaler.address.neighborhood" disabled style="color: black;background-color: white !important;">
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <!-- <div class="user-profile text-center">
+
+                  <div class="view-profile"  >
+                    <button type="button" class="btn btn-primary btn-block"
+                    data-toggle="modal"[attr.data-target]="'#modal-reset-wholesaler-password-'+wholesaler._id" data-dismiss="modal" >
+                      Réinitialiser mot de passe <i class="fas fa-lock-open"></i> </button>
+                  </div>
+
+                </div> -->
+              </div>
+              <div class="card-footer">
+                <div class="row user-stats text-center" >
+                  <div class="col" fxLayout="row">
+                    <button fxFlex (click)="isDisabled(semiWholesaler)" class="btn" [ngClass]="semiWholesaler.isDisabled ? 'btn-success' :'btn-dark'">
+                      {{semiWholesaler.isDisabled? 'Activer':'Désactiver'}}
+                    </button>
+                  </div>
+                  <div class="col" fxLayout="row">
+                    <button fxFlex  class="btn btn-danger" data-toggle="modal"[attr.data-target]="'#modal-delete-semi-wholesaler-'+semiWholesaler._id" data-dismiss="modal">Supprimer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

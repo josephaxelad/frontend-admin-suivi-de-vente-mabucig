@@ -1,0 +1,115 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="PRODUITS"
+        [breadcrumb]="[
+        {name : 'Paramètres',link : '',icone : 'fas fa-cog'},
+        {name : 'Mes produits',link : '/produits',icone : 'fas  fa-box'},
+        {name : 'Ajouter un produit',link : '',icone : 'fas fa-plus-circle'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-md-12">
+          <form class="card" [formGroup]="addProductForm" (ngSubmit)="add()">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <div class="card-title">Ajouter un produit</div>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/produits']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Mes produits </span>
+                  <i class="fas  fa-box"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row wrap">
+
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">SKU</label>
+                  <input class="form-control"  placeholder="Nom du produit" formControlName="sku"
+                  [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.sku.errors }">
+                  <div *ngIf="submitted && addProductForm.controls.sku.errors" class="invalid-feedback">
+                    <div *ngIf="addProductForm.controls.sku.errors.required">Le sku est réquis !</div>
+                  </div>
+                </div>
+
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group" >
+                  <label for="exampleInputEmail1">Prix du carton</label>
+                  <div class="input-group mb-3">
+                    <input type="number" class="form-control"  placeholder="" formControlName="price"
+                    [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.price.errors }">
+                    <div class="input-group-append">
+                      <span class="input-group-text">FCFA</span>
+                    </div>
+                    <div *ngIf="submitted && addProductForm.controls.price.errors" class="invalid-feedback">
+                      <div *ngIf="addProductForm.controls.price.errors.required">Le prix du produit est réquis !</div>
+                      <div *ngIf="addProductForm.controls.price.errors.min">Le prix du produit ne doit être inférieur à 0 !</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Nombre de cigarettes par carton</label>
+                  <input type="number" class="form-control"  placeholder="" formControlName="numberByPack"
+                  [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.numberByPack.errors }">
+                  <div *ngIf="submitted && addProductForm.controls.numberByPack.errors" class="invalid-feedback">
+                    <div *ngIf="addProductForm.controls.numberByPack.errors.required">Le nombre de cigarettes par carton est réquis !</div>
+                    <div *ngIf="addProductForm.controls.numberByPack.errors.min">Le nombre de cigarettes par carton ne doit être inférieur à 0 !</div>
+                  </div>
+                </div>
+
+                <div class="form-group" fxFlex.lt-md="100" fxFlex="50">
+                  <label for="exampleFormControlSelect1">Marque </label>
+                  <select formControlName="idMark" class="form-control" id="exampleFormControlSelect1"
+                  [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.idMark.errors }">
+                    <option *ngFor="let mark of marks" [value]="mark._id">{{mark.name}}</option>
+                  </select>
+                  <div *ngIf="submitted && addProductForm.controls.idMark.errors" class="invalid-feedback">
+                    <div *ngIf="addProductForm.controls.idMark.errors.required">La marque du produit est réquise !</div>
+                  </div>
+                </div>
+
+                <div fxFlex.lt-md="100" fxFlex="50"  fxLayout="column" fxLayoutAlign="center start" style="padding: 10px;">
+                  <div class="input-file input-file-image" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" fxLayoutGap.xs="5px">
+                    <img class="img-upload-preview img-circle" width="100" height="100" [src]="imagePreview ? imagePreview : 'assets/img/boite-en-carton.png'"  alt="preview">
+                    <input type="file" class="form-control form-control-file" id="uploadImg1" name="uploadImg1" accept="image/*" required="" (change)="onFileChange($event)">
+                    <label for="uploadImg1" class="  label-input-file btn btn-sm btn-black btn-round">
+                      <span class="btn-label ">
+                        <i class="fa fa-file-image"></i>
+                      </span>
+                      Choisir une image
+                    </label>
+                    <button  type="button" class="btn btn-sm btn-danger btn-round" (click)="deleteImagePreview()">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- <div class="form-group"  fxFlex.lt-md="100" fxFlex="50"  fxLayout="column" fxLayoutAlign="center start" >
+                  <label  for="formFile" >Choisir une image</label>
+                  <input class="form-control-sm" style="padding: 0;"  type="file">
+
+                  <div fxLayout="row" fxFlex="100" *ngIf="false">
+                    <div class="image-product" fxLayout="column" fxFlex="100" >
+                      <button type="button" class="btn btn-danger btn-block btn-sm btn-delete-image"  ><i class="fas fa-times"></i></button>
+                      <div fxLayout="row" fxFlex="300px">
+                        <img fxFlex="100" src=""  >
+                      </div>
+                    </div>
+                  </div>
+
+                </div> -->
+
+              </div>
+            </div>
+            <div class="card-action">
+              <button class="btn btn-success">Ajouter</button>
+              <!-- <button class="btn btn-danger">Retour</button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

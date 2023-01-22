@@ -1,0 +1,17 @@
+.alert{
+  z-index: 9999;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+
+  @media screen and (max-width: 991px){
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  @media screen and (min-width: 992px){
+    width: 40%;
+    margin-right: 30px;
+    margin-bottom: 35px;
+  }
+}

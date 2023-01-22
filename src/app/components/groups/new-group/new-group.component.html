@@ -1,0 +1,45 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <!-- Page Header -- Debut -->
+        <app-page-header
+        title="GROUPES D'ENTREPRISE"
+        [breadcrumb]="[
+        {name : 'Paramètres',link : '',icone : 'fas fa-cog'},
+        {name : 'Mes groupes',link : '/parametres/groupes',icone : 'fas fa-plus-circle'},
+        {name : 'Ajouter un groupe',link : '',icone : 'fas fa-plus-circle'}]"></app-page-header>
+      <!-- Page Header -- Fin -->
+      <div class="row mt-top">
+        <div class="col-12">
+          <form class="card"  [formGroup]="addGroupForm" (ngSubmit)="add()">
+            <div class="card-header">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">Ajouter un groupe d'entreprise</h4>
+                <button type="button" class="btn btn-primary btn-round ml-auto" [routerLink]="['/parametres/groupes/']" >
+                  <i class="fas fa-arrow-alt-circle-left"></i>
+                  <span fxHide.lt-md> Retour </span>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row" fxLayoutAlign="row wrap">
+                <div fxFlex.lt-md="100" fxFlex="50" class="form-group">
+                  <label for="exampleInputEmail1">Groupe</label>
+                  <input class="form-control" placeholder="Nom du groupe" formControlName="name"
+                  [ngClass]="{ 'is-invalid': submitted && addGroupForm.controls.name.errors }">
+                  <div *ngIf="submitted && addGroupForm.controls.name.errors" class="invalid-feedback">
+                    <div *ngIf="addGroupForm.controls.name.errors.required">Le groupe d'entreprise est réquis !</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-action">
+              <button type="submit" class="btn btn-success">Ajouter</button>
+              <!-- <button class="btn btn-danger">Retour</button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
